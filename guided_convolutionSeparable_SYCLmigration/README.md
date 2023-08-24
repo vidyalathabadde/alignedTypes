@@ -176,7 +176,7 @@ Checking the results...
 
 Shutting down...
 Test passed
-Built target run_gpu
+Built target run
 ```
 
 sycl_migrated_optimized
@@ -200,7 +200,7 @@ Checking the results...
 
 Shutting down...
 Test passed
-Built target run_cmo_gpu
+Built target run_smo
 ```
 
 ## License
