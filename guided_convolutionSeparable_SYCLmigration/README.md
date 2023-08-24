@@ -1,6 +1,6 @@
 ﻿# `convolutionSeparable` Sample
 
-The convolution separable is a process in which a single convolution can be divided into two or more convolutions to produce the same output. This sample is implemented using SYCL* by migrating code from original CUDA source code and offloading computations to a GPU/CPU.
+The convolution separable is a process in which a single convolution can be divided into two or more convolutions to produce the same output. This sample is implemented using SYCL* by migrating code from the original CUDA source code and offloading computations to a GPU/CPU.
 
 | Property              | Description
 |:---                   |:---
@@ -9,7 +9,7 @@ The convolution separable is a process in which a single convolution can be divi
 
 ## Purpose
 
-The sample shows the migration of convolutionSeperable from CUDA to SYCL using SYCLomatic tool and optimizing the migrated sycl code further to acheive good results.
+The sample shows the migration of convolutionSeperable from CUDA to SYCL using SYCLomatic tool and optimizing the migrated sycl code further to achieve good results.
 
 
 >**Note**: We use Intel® open-sources SYCLomatic migration tool which assists developers in porting CUDA code automatically to SYCL code. To finish the process, developers complete the rest of the coding manually and then tune to the desired level of performance for the target architecture. Users can also use Intel® DPC++ Compatibility Tool which comes along with the Intel® oneAPI Base Toolkit.
@@ -18,7 +18,7 @@ This sample contains two versions in the following folders:
 
 | Folder Name                   | Description
 |:---                           |:---
-| `01_dpct_output`              | Contains output of SYCLomatic Tool which is fully migrated version of CUDA code.
+| `01_dpct_output`              | Contains the output of SYCLomatic Tool which is a fully migrated version of CUDA code.
 | `02_sycl_migrated_optimized`            | Contains the optimized sycl code
 
 ## Workflow For CUDA to SYCL migration
@@ -29,15 +29,15 @@ Refer [Workflow](https://www.intel.com/content/www/us/en/developer/tools/oneapi/
 
 A Separable Convolution is a process in which a single convolution can be divided into two or more convolutions to produce the same output. This sample implements a separable convolution filter of a 2D image with an arbitrary kernel. There are two functions in the code named convolutionRowsGPU and convolutionColumnsGPU in which the kernel functions (convolutionRowsKernel & convolutionColumnsKernel) are called where the loading of the input data and computations are performed. We validate the results with reference CPU separable convolution implementation by calculating the relative L2 norm.
 
-This sample is migrated from NVIDIA CUDA sample. See the sample [convolutionSeparable](https://github.com/NVIDIA/cuda-samples/tree/master/Samples/2_Concepts_and_Techniques/convolutionSeparable) in the NVIDIA/cuda-samples GitHub.
+This sample is migrated from the NVIDIA CUDA sample. See the sample [convolutionSeparable](https://github.com/NVIDIA/cuda-samples/tree/master/Samples/2_Concepts_and_Techniques/convolutionSeparable) in the NVIDIA/cuda-samples GitHub.
 
 ## Prerequisites
 
 | Optimized for              | Description
 |:---                   |:---
-| OS                    | Ubuntu* 20.04
-| Hardware              | Intel® Gen9, Gen11 and Xeon CPU 
-| Software              | SYCLomatic version 2023.0, Intel oneAPI Base Toolkit version 2023.0
+| OS                    | Ubuntu* 22.04
+| Hardware              | Intel® Gen9 <br> Gen11 <br> Xeon CPU <br> Data Center GPU Max
+| Software                | SYCLomatic (Tag - 20230720) <br> Intel® oneAPI Base Toolkit (Base Kit) version 2023.2.1
 
 For more information on how to install Syclomatic Tool, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.v354cy).
 
@@ -81,7 +81,7 @@ For this sample, the SYCLomatic tool automatically migrates 100% of the CUDA run
 
 The migrated code can be optimized by using profiling tools which helps in identifying the hotspots (in this case convolutionRowsKernel() and convolutionColumnsKernel()).
  
-If we observe the migrated SYCL code, especially in the above-mentioned function calls we see many ‘for’ loops which are being unrolled.
+If we observe the migrated SYCL code, especially in the above-mentioned function calls we see many ‘for’ loops that are being unrolled.
 Although loop unrolling exposes opportunities for instruction scheduling optimization by the compiler and thus can improve performance, sometimes it may increase pressure on register allocation and cause register spilling. 
 
 So, it is always a good idea to compare the performance with and without loop unrolling along with different times of unrolls to decide if a loop should be unrolled or how many times to unroll it.
@@ -164,7 +164,7 @@ Allocating and initializing host arrays...
 Allocating and initializing CUDA arrays...
 Running GPU convolution (16 identical iterations)...
 
-convolutionSeparable, Throughput = 3222.8755 MPixels/sec, Time = 0.00293 s, Size = 9437184 Pixels, NumDevsUsed = 1, Workgroup = 0
+convolutionSeparable, Throughput = 8516.3535 MPixels/sec, Time = 0.00111 s, Size = 9437184 Pixels, NumDevsUsed = 1, Workgroup = 0
 
 Reading back GPU results...
 
@@ -188,7 +188,7 @@ Allocating and initializing host arrays...
 Allocating and initializing CUDA arrays...
 Running GPU convolution (16 identical iterations)...
 
-convolutionSeparable, Throughput = 21469.4930 MPixels/sec, Time = 0.00044 s, Size = 9437184 Pixels, NumDevsUsed = 1, Workgroup = 0
+convolutionSeparable, Throughput = 18253.7401 MPixels/sec, Time = 0.00052 s, Size = 9437184 Pixels, NumDevsUsed = 1, Workgroup = 0
 
 Reading back GPU results...
 
