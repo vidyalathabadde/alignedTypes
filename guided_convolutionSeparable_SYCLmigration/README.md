@@ -129,9 +129,9 @@ We can separate the array and load it into another new array and use it in place
       ```
       Run `dpct_output` on CPU.
       ```
-      export SYCL_DEVICE_FILTER=cpu
+      export ONEAPI_DEVICE_SELECTOR=cpu
       make run
-      unset SYCL_DEVICE_FILTER
+      unset ONEAPI_DEVICE_SELECTOR
       ```
       Run `sycl_migrated_optimized` on GPU.
       ```
@@ -139,9 +139,9 @@ We can separate the array and load it into another new array and use it in place
       ```
       Run `sycl_migrated_optimized` on CPU.
       ```
-      export SYCL_DEVICE_FILTER=cpu
+      export ONEAPI_DEVICE_SELECTOR=cpu
       make run_smo
-      unset SYCL_DEVICE_FILTER
+      unset ONEAPI_DEVICE_SELECTOR
       ```
 #### Troubleshooting
 
