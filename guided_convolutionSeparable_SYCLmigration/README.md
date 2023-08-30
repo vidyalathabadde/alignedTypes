@@ -1,6 +1,6 @@
 ﻿# `convolutionSeparable` Sample
 
-The convolution separable is a process in which a single convolution can be divided into two or more convolutions to produce the same output. This sample is implemented using SYCL* by migrating code from the original CUDA source code and offloading computations to a GPU/CPU.
+The convolution separable is a process in which a single convolution can be divided into two or more convolutions to produce the same output. This sample is implemented using SYCL* by migrating code from the original CUDA source code and offloading computations to a CPU, GPU, or accelerator.
 
 | Area              | Description
 |:---                   |:---
