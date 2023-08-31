@@ -38,10 +38,10 @@ This sample is migrated from the NVIDIA CUDA sample. See the sample [convolution
 |:---                   |:---
 | OS                    | Ubuntu* 22.04
 | Hardware              | Intel® Gen9 <br> Gen11 <br> Xeon CPU <br> Data Center GPU Max <br> Tesla P100 <br> NVIDIA A100 <br> NVIDIA H100
-| Software                | SYCLomatic (Tag - 20230720) <br> Intel® oneAPI Base Toolkit version 2023.2.1
+| Software                | SYCLomatic (Tag - 20230720) <br> Intel® oneAPI Base Toolkit version 2023.2.1 <br> DPC++ CUDA® plugin (to run SYCL™ applications on NVIDIA® GPUs)
 
-For more information on how to install Syclomatic Tool, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.v354cy).
-
+For more information on how to install Syclomatic Tool & DPC++ CUDA® plugin, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.v354cy).
+[Install oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/2023.2.1/guides/get-started-guide-nvidia)
 
 ## Key Implementation Details
 
@@ -119,7 +119,7 @@ We can separate the array and load it into another new array and use it in place
    $ make
    ```
 
-   By default, this command sequence will build the `dpct_output` as well as `sycl_migrated_optimized` versions of the program on Intel GPU.
+   By default, this command sequence will build the `dpct_output` as well as `sycl_migrated_optimized` versions of the program.
 
 4. Run the code
 
