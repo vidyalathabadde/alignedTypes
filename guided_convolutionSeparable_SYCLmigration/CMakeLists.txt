@@ -1,16 +1,13 @@
 cmake_minimum_required (VERSION 3.4.0)
 
-option(VENDOR "One of [Intel|Nvidia|AMD]. This option enables users to specify the vendor of the target device to generate the binary for" Intel)
+option(VENDOR "One of [Intel|Nvidia]. This option enables users to specify the vendor of the target device to generate the binary for" Intel)
 
 set(CMAKE_CXX_COMPILER "icpx")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl")
 
 if (VENDOR STREQUAL "Nvidia" OR VENDOR STREQUAL "nvidia")
-        set(CMAKE_CXX_COMPILER "clang++")
+        set(CMAKE_CXX_COMPILER "icpx")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl-targets=nvptx64-nvidia-cuda")
-elseif (VENDOR STREQUAL "AMD" OR VENDOR STREQUAL "amd")
-        set(CMAKE_CXX_COMPILER "clang++")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl-targets=amdgcn-amd-amdhsa --offload-arch=gfx906")
 elseif (NOT (VENDOR STREQUAL "Intel" OR VENDOR STREQUAL "intel"))
         message(ERROR "Invalid value set for VENDOR=${VENDOR}. Choose one of [Intel|Nvidia|AMD].")
 endif ()
