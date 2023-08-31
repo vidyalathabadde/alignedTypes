@@ -120,7 +120,7 @@ We can separate the array and load it into another new array and use it in place
    ```
    $ mkdir build
    $ cd build
-   $ cmake -D VENDOR=[Intel|Nvidia] .. (set VENDOR flag according to your target device)
+   $ cmake .. -D VENDOR=[Intel|Nvidia]     (set VENDOR flag according to the target device)
    $ make
    ```
 
