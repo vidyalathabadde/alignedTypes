@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.4.0)
 
-option(VENDOR "One of [Intel|Nvidia]. This option enables users to specify the vendor of the target device to generate the binary for" Intel)
+option(VENDOR "One of [Intel|Nvidia|Max-GPU]. This option enables users to specify the vendor of the target device to generate the binary for" Intel)
 
 set(CMAKE_CXX_COMPILER "icpx")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl")
@@ -8,8 +8,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl")
 if (VENDOR STREQUAL "Nvidia" OR VENDOR STREQUAL "nvidia")
         set(CMAKE_CXX_COMPILER "icpx")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl-targets=nvptx64-nvidia-cuda")
+elseif (VENDOR STREQUAL "Max-GPU" OR VENDOR STREQUAL "max-gpu")
+        set(CMAKE_CXX_COMPILER "icpx")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl-targets=intel_gpu_pvc")
 elseif (NOT (VENDOR STREQUAL "Intel" OR VENDOR STREQUAL "intel"))
-        message(ERROR "Invalid value set for VENDOR=${VENDOR}. Choose one of [Intel|Nvidia|AMD].")
+        message(ERROR "Invalid value set for VENDOR=${VENDOR}. Choose one of [Intel|Nvidia|Max-GPU].")
 endif ()
 
 message(STATUS "CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
