@@ -78,7 +78,12 @@ For this sample, the SYCLomatic tool automatically migrates 100% of the CUDA run
    ```
    c2s -p compile_commands.json --in-root ../../.. --gen-helper-function
    ```
-   
+#### Manual Workaround
+To find the device on which the code is getting executed replace the `findCudaDevice (argc, (const char **) argv);` with the following sycl get_device() API
+```
+std::cout << "\nRunning on " << dpct::get_default_queue().get_device().get_info<sycl::info::device::name>()
+<<"\n";   
+```
 ### Optimizations
 
 The migrated code can be optimized by using profiling tools which helps in identifying the hotspots (in this case convolutionRowsKernel() and convolutionColumnsKernel()).
