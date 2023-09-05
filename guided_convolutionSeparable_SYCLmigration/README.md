@@ -38,10 +38,10 @@ This sample is migrated from the NVIDIA CUDA sample. See the sample [convolution
 |:---                   |:---
 | OS                    | Ubuntu* 22.04
 | Hardware              | Intel® Gen9 <br> Gen11 <br> Xeon CPU <br> Data Center GPU Max <br> Tesla P100 <br> NVIDIA A100 <br> NVIDIA H100
-| Software                | SYCLomatic (Tag - 20230720) <br> Intel® oneAPI Base Toolkit version 2023.2.1 <br> DPC++ CUDA® plugin (to run SYCL™ applications on NVIDIA® GPUs)
+| Software                | SYCLomatic (Tag - 20230720) <br> Intel® oneAPI Base Toolkit version 2023.2.1 <br> oneAPI for NVIDIA GPUs" plugin from Codeplay
 
 For more information on how to install Syclomatic Tool & DPC++ CUDA® plugin, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.v354cy) <br>
-[Install oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/2023.2.1/guides/get-started-guide-nvidia)
+[Install oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/)
 
 ## Key Implementation Details
 
@@ -120,11 +120,12 @@ We can separate the array and load it into another new array and use it in place
    ```
    $ mkdir build
    $ cd build
-   $ cmake .. -D VENDOR=[Intel|Nvidia]     (set VENDOR flag according to the target device)
+   $ cmake .. or ( cmake -D INTEL_MAX_GPU=1 .. ) or ( cmake -D NVIDIA_GPU=1 .. )
    $ make
    ```
-
-   By default, this command sequence will build the `dpct_output` as well as `sycl_migrated_optimized` versions of the program.
+**Note:** By default, no flags are enabled during the build which supports Intel® UHD Graphics, Intel® Gen9, Gen11, Xeon CPU. Enable INTEL_MAX_GPU flag during build which supports Intel® Data Center GPU Max 1550 or 1100 to get optimized performance.  Enable NVIDIA_GPU flag during build which supports NVIDIA GPUs.([oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/) plugin from Codeplay is required to build for NVIDIA GPUs)
+   
+By default, this command sequence will build the `dpct_output` as well as `sycl_migrated_optimized` versions of the program.
 
 4. Run the code
 
