@@ -1,17 +1,16 @@
-﻿# `convolutionSeparable` Sample
+﻿# `Aligned Types` Sample
 
-The convolution separable is a process in which a single convolution can be divided into two or more convolutions to produce the same output. This sample is implemented using SYCL* by migrating code from the original CUDA source code and offloading computations to a CPU, GPU, or accelerator.
+Data structure alignment is the way data is arranged and accessed in computer memory. Memory access is said to be aligned when the data being accessed is n bytes long and the datum address is n-byte aligned. When a memory access is not aligned, it is said to be misaligned.  This sample is implemented using SYCL* by migrating code from the original CUDA source code and offloading computations to a CPU, GPU, or accelerator.
 
 | Area              | Description
 |:---                   |:---
-| What you will learn              | Migrate convolutionSeparable from CUDA to SYCL and optimize it
+| What you will learn              | Migrate alignedTypes from CUDA to SYCL
 | Time to complete              | 15 minutes
 | Category                      | Code Optimization
 
 ## Purpose
 
-The sample shows the migration of convolutionSeperable from CUDA to SYCL using SYCLomatic tool and optimizing the migrated sycl code further to achieve good results.
-
+The sample shows the migration of alignesTypes from CUDA to SYCL using SYCLomatic tool.
 
 >**Note**: We use Intel® open-sources SYCLomatic migration tool which assists developers in porting CUDA code automatically to SYCL code. To finish the process, developers complete the rest of the coding manually and then tune to the desired level of performance for the target architecture. Users can also use Intel® DPC++ Compatibility Tool which comes along with the Intel® oneAPI Base Toolkit.
 
@@ -19,8 +18,8 @@ This sample contains two versions in the following folders:
 
 | Folder Name                   | Description
 |:---                           |:---
-| `01_dpct_output`              | Contains the output of SYCLomatic Tool which is a fully migrated version of CUDA code.
-| `02_sycl_migrated_optimized`            | Contains the optimized sycl code
+| `dpct_output`              | Contains the output of SYCLomatic Tool which is a fully migrated version of CUDA code.
+| `sycl_migrated`              | Contains the output of SYCLomatic Tool with replacing findCudaDevice.
 
 ## Workflow For CUDA to SYCL migration
 
@@ -28,9 +27,9 @@ Refer [Workflow](https://www.intel.com/content/www/us/en/developer/tools/oneapi/
 
 ## CUDA source code evaluation
 
-A Separable Convolution is a process in which a single convolution can be divided into two or more convolutions to produce the same output. This sample implements a separable convolution filter of a 2D image with an arbitrary kernel. There are two functions in the code named convolutionRowsGPU and convolutionColumnsGPU in which the kernel functions (convolutionRowsKernel & convolutionColumnsKernel) are called where the loading of the input data and computations are performed. We validate the results with reference CPU separable convolution implementation by calculating the relative L2 norm.
+ This sample test shows an access speed gap between aligned and misaligned structures (those having/missing __align__ keyword). It measures per-element copy throughput for aligned and misaligned structures on big chunks of data. There are two functions in the code named testKernel, a simple CUDA kernel in which copy is carried out on a per-element basis, so it's not per-byte in case of padded structures and the results are validated on the host-side in testCPU function.
 
-This sample is migrated from the NVIDIA CUDA sample. See the sample [convolutionSeparable](https://github.com/NVIDIA/cuda-samples/tree/master/Samples/2_Concepts_and_Techniques/convolutionSeparable) in the NVIDIA/cuda-samples GitHub.
+This sample is migrated from the NVIDIA CUDA sample. See the sample [aligneTypes](https://github.com/NVIDIA/cuda-samples/tree/master/Samples/6_Performance/alignedTypes) in the NVIDIA/cuda-samples GitHub.
 
 ## Prerequisites
 
@@ -38,20 +37,11 @@ This sample is migrated from the NVIDIA CUDA sample. See the sample [convolution
 |:---                   |:---
 | OS                    | Ubuntu* 22.04
 | Hardware              | Intel® Gen9 <br> Intel® Gen11 <br> Intel® Xeon CPU <br> Intel® Data Center GPU Max <br> NVIDIA Tesla P100 <br> NVIDIA A100 <br> NVIDIA H100
-| Software                | SYCLomatic (Tag - 20230720) <br> Intel® oneAPI Base Toolkit version 2023.2.1 <br> oneAPI for NVIDIA GPUs" plugin from Codeplay
+| Software                | SYCLomatic (Tag - 20231004) <br> Intel® oneAPI Base Toolkit version 2023.2.1 <br> oneAPI for NVIDIA GPUs" plugin from Codeplay
 
-For more information on how to install Syclomatic Tool & DPC++ CUDA® plugin, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.v354cy) <br>
-[Install oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/)
+For more information on how to install Syclomatic Tool & DPC++ CUDA® plugin, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.v354cy) How to run SYCL™ applications on NVIDIA® GPUs, refer to oneAPI for NVIDIA GPUs plugin from Codeplay [Install oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/)
 
-## Key Implementation Details
-
-This sample demonstrates the migration of the following CUDA features: 
-
-- Shared memory
-- Constant memory
-- Cooperative groups
-
-## Build the `convolutionSeparable` Sample for CPU and GPU
+## Build the `alignedTypes` Sample for CPU and GPU
 
 > **Note**: If you have not already done so, set up your CLI
 > environment by sourcing  the `setvars` script in the root of your oneAPI installation.
@@ -68,7 +58,7 @@ This sample demonstrates the migration of the following CUDA features:
 For this sample, the SYCLomatic tool automatically migrates 100% of the CUDA runtime API's to SYCL. Follow these steps to generate the SYCL code using the compatibility tool:
 
 1. git clone https://github.com/NVIDIA/cuda-samples.git
-2. cd cuda-samples/Samples/2_Concepts_and_Techniques/convolutionSeparable/
+2. cd cuda-samples/Samples/6_Performance/alignedTypes/
 3. Generate a compilation database with intercept-build
    ```
    intercept-build make
@@ -79,40 +69,11 @@ For this sample, the SYCLomatic tool automatically migrates 100% of the CUDA run
    c2s -p compile_commands.json --in-root ../../.. --gen-helper-function
    ```
 #### Manual Workaround
-To find the device on which the code is getting executed replace the `findCudaDevice (argc, (const char **) argv);` with the following sycl get_device() API
+CUDA code includes a custom API findCUDADevice in helper_cuda file to find the best CUDA Device available
 ```
-std::cout << "\nRunning on " << dpct::get_default_queue().get_device().get_info<sycl::info::device::name>()
-<<"\n";   
+ findCudaDevice (argc, (const char **) argv);   
 ```
-### Optimizations
-
-The migrated code can be optimized by using profiling tools which helps in identifying the hotspots (in this case convolutionRowsKernel() and convolutionColumnsKernel()).
- 
-If we observe the migrated SYCL code, especially in the above-mentioned function calls we see many ‘for’ loops that are being unrolled.
-Although loop unrolling exposes opportunities for instruction scheduling optimization by the compiler and thus can improve performance, sometimes it may increase pressure on register allocation and cause register spilling. 
-
-So, it is always a good idea to compare the performance with and without loop unrolling along with different times of unrolls to decide if a loop should be unrolled or how many times to unroll it.
-
-In this case, by implementing the above technique, we can decrease the execution time by avoiding loop unrolling at the innermost “for-loop” of the computation part in convolutionRowsKernel function (line 120) and avoiding loop unrolling at the outer loop of the computation part in convolutionColumnsKernel function (line 242) of the file convolutionSeparable.dp.cpp.
-
-Also, we can still decrease the execution time by avoiding the repetitive loading of c_Kernel[] array (as it is independent of `i` for-loop in convolutionSeparable.dp.cpp file). 
-
-  ```
-  for (int i = ROWS_HALO_STEPS; i < ROWS_HALO_STEPS + ROWS_RESULT_STEPS; i++) {
-      float sum = 0;
-  for (int j = -KERNEL_RADIUS; j <= KERNEL_RADIUS; j++) {
-     sum += c_Kernel[KERNEL_RADIUS - j] *s_Data[item_ct1.get_local_id(1)][item_ct1.get_local_id(2) + i * ROWS_BLOCKDIM_X + j];}
-  ```
-
-We can separate the array and load it into another new array and use it in place of c_Kernel
-
-  ```
-  float a[2*KERNEL_RADIUS + 1];
-  for(int i=0; i<= 2*KERNEL_RADIUS; i++)
-  a[i]=c_Kernel[i]; 
-  ```
->**Note**: These optimization techniques also work with the larger input image sizes.
-
+Since its a custom API SYCLomatic tool will not act on it and we can either remove it or replace it with the sycl get_device() API.
 ### On Linux*
 
 1. Change to the sample directory.
@@ -128,7 +89,7 @@ We can separate the array and load it into another new array and use it in place
 > - Enable INTEL_MAX_GPU flag during build which supports Intel® Data Center GPU Max 1550 or 1100 to get optimized performance.
 > - Enable NVIDIA_GPU flag during build which supports NVIDIA GPUs.([oneAPI for NVIDIA GPUs plugin from Codeplay](https://developer.codeplay.com/products/oneapi/nvidia/)  is required to build for NVIDIA GPUs)
    
-By default, this command sequence will build the `dpct_output` as well as `sycl_migrated_optimized` versions of the program.
+By default, this command sequence will build the `dpct_output` as well as `sycl_migrated` versions of the program.
 
 4. Run the code
 
@@ -144,14 +105,14 @@ By default, this command sequence will build the `dpct_output` as well as `sycl_
       make run
       unset ONEAPI_DEVICE_SELECTOR
       ```
-      Run `sycl_migrated_optimized` on GPU.
+      Run `sycl_migrated` on GPU.
       ```
-      make run_smo
+      make run_sm
       ```
-      Run `sycl_migrated_optimized` on CPU.
+      Run `sycl_migrated` on CPU.
       ```
       export ONEAPI_DEVICE_SELECTOR=cpu
-      make run_smo
+      make run_sm
       unset ONEAPI_DEVICE_SELECTOR
       ```
 #### Troubleshooting
@@ -166,57 +127,115 @@ If you receive an error message, troubleshoot the problem using the **Diagnostic
 
 ## Example output
 
-dpct_output
+The following example is for 02_sycl_migrated for GPU on Intel(R) UHD Graphics P630 [0x3e96]
 
 ```
-Image Width x Height = 3072 x 3072
+[./a.out] - Starting... 
 
-Allocating and initializing host arrays...
-Allocating and initializing CUDA arrays...
-Running GPU convolution (16 identical iterations)...
+MapSMtoCores for SM 1.3 is undefined.  Default to use 128 Cores/SM 
 
-convolutionSeparable, Throughput = 8516.3535 MPixels/sec, Time = 0.00111 s, Size = 9437184 Pixels, NumDevsUsed = 1, Workgroup = 0
+MapSMtoCores for SM 1.3 is undefined.  Default to use 128 Cores/SM 
 
-Reading back GPU results...
+[Intel(R) UHD Graphics P630 [0x3e96]] has 24 MP(s) x 128 (Cores/MP) = 3072 (Cores) 
 
-Checking the results...
- ...running convolutionRowCPU()
- ...running convolutionColumnCPU()
- ...comparing the results
- ...Relative L2 norm: 0.000000E+00
+MapSMtoCores for SM 1.3 is undefined.  Default to use 128 Cores/SM 
 
-Shutting down...
-Test passed
-Built target run
-```
+> Compute scaling value = 1.00 
 
-sycl_migrated_optimized
+> Memory Size = 49999872 
 
-```
-Image Width x Height = 3072 x 3072
+Allocating memory... 
 
-Allocating and initializing host arrays...
-Allocating and initializing CUDA arrays...
-Running GPU convolution (16 identical iterations)...
+Generating host input data array... 
 
-convolutionSeparable, Throughput = 18253.7401 MPixels/sec, Time = 0.00052 s, Size = 9437184 Pixels, NumDevsUsed = 1, Workgroup = 0
+Uploading input data to GPU memory... 
 
-Reading back GPU results...
+Testing misaligned types... 
 
-Checking the results...
- ...running convolutionRowCPU()
- ...running convolutionColumnCPU()
- ...comparing the results
- ...Relative L2 norm: 0.000000E+00
+uint8... 
 
-Shutting down...
-Test passed
-Built target run_smo
+Avg. time: 10.518750 ms / Copy throughput: 4.426953 GB/s. 
+
+        TEST OK 
+
+uint16... 
+
+Avg. time: 5.757594 ms / Copy throughput: 8.087755 GB/s. 
+
+        TEST OK 
+
+RGBA8_misaligned... 
+
+Avg. time: 3.417031 ms / Copy throughput: 13.627622 GB/s. 
+
+        TEST OK 
+
+LA32_misaligned... 
+
+Avg. time: 4.948156 ms / Copy throughput: 9.410780 GB/s. 
+
+        TEST OK 
+
+RGB32_misaligned... 
+
+Avg. time: 4.902844 ms / Copy throughput: 9.497755 GB/s. 
+
+        TEST OK 
+
+RGBA32_misaligned... 
+
+Avg. time: 3.140719 ms / Copy throughput: 14.826546 GB/s. 
+
+        TEST OK 
+
+Testing aligned types... 
+
+RGBA8... 
+
+Avg. time: 3.405875 ms / Copy throughput: 13.672260 GB/s. 
+
+        TEST OK 
+
+I32... 
+
+Avg. time: 3.434969 ms / Copy throughput: 13.556458 GB/s. 
+
+        TEST OK 
+
+LA32... 
+
+Avg. time: 4.919219 ms / Copy throughput: 9.466140 GB/s. 
+
+        TEST OK 
+
+RGB32... 
+
+Avg. time: 3.137406 ms / Copy throughput: 14.842199 GB/s. 
+
+        TEST OK 
+
+RGBA32... 
+
+Avg. time: 3.121562 ms / Copy throughput: 14.917532 GB/s. 
+
+        TEST OK 
+
+RGBA32_2... 
+
+Avg. time: 4.536313 ms / Copy throughput: 10.265168 GB/s. 
+
+        TEST OK 
+
+[alignedTypes] -> Test Results: 0 Failures 
+
+Shutting down... 
+
+Test passed 
 ```
 
 ## License
 Code samples are licensed under the MIT license. See
 [License.txt](https://github.com/oneapi-src/oneAPI-samples/blob/master/License.txt) for details.
 
-Third party program licenses are at [third-party-programs.txt](https://github.com/oneapi-src/oneAPI-samples/blob/master/third-party-programs.txt).
+Third-party program licenses are at [third-party-programs.txt](https://github.com/oneapi-src/oneAPI-samples/blob/master/third-party-programs.txt).
 
