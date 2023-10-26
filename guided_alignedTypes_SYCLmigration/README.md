@@ -1,6 +1,6 @@
 ﻿# `Aligned Types` Sample
 
-Data structure alignment is the way data is arranged and accessed in computer memory. Memory access is said to be aligned when the data being accessed is n bytes long and the datum address is n-byte aligned. When a memory access is not aligned, it is said to be misaligned.  This sample is implemented using SYCL* by migrating code from the original CUDA source code and offloading computations to a CPU, GPU, or accelerator.
+Data structure alignment is the way data is arranged and accessed in computer memory. Memory access is said to be aligned when the data being accessed is n bytes long and the datum address is n-byte aligned. When a memory access is not aligned, it is said to be misaligned.  This sample is implemented using SYCL* by migrating code from the original CUDA source code and offloading computations across GPUs from multiple vendors.
 
 | Area              | Description
 |:---                   |:---
@@ -39,7 +39,7 @@ This sample is migrated from the NVIDIA CUDA sample. See the sample [aligneTypes
 | Hardware              | Intel® Gen9 <br> Intel® Gen11 <br> Intel® Xeon CPU <br> Intel® Data Center GPU Max <br> NVIDIA Tesla P100 <br> NVIDIA A100 <br> NVIDIA H100
 | Software                | SYCLomatic (Tag - 20231004) <br> Intel® oneAPI Base Toolkit version 2023.2.1 <br> oneAPI for NVIDIA GPUs" plugin from Codeplay
 
-For more information on how to install Syclomatic Tool & DPC++ CUDA® plugin, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.v354cy) How to run SYCL™ applications on NVIDIA® GPUs, refer to oneAPI for NVIDIA GPUs plugin from Codeplay [Install oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/)
+For more information on how to install Syclomatic Tool & DPC++ CUDA® plugin, visit [Migrate from CUDA* to C++ with SYCL*](https://www.intel.com/content/www/us/en/developer/tools/oneapi/training/migrate-from-cuda-to-cpp-with-sycl.html#gs.v354cy) <br> How to run SYCL™ applications on NVIDIA® GPUs, refer to oneAPI for NVIDIA GPUs plugin from Codeplay [Install oneAPI for NVIDIA GPUs](https://developer.codeplay.com/products/oneapi/nvidia/)
 
 ## Build the `alignedTypes` Sample for CPU and GPU
 
