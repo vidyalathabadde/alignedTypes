@@ -1,8 +1,8 @@
 {
   "guid": "009305E2-4EA9-4D30-B09F-4B578CE6DD54",
-  "name": "convolutionSeparable",
+  "name": "alignedTypes",
   "categories": ["Toolkit/oneAPI Direct Programming/C++SYCL"],
-  "description": "This sample implements a separable convolution filter of a 2D signal with a gaussian kernel.",
+  "description": "This sample demonstrates the access speed gap of aligned & misaligned types",
   "toolchain": [ "dpcpp" ],
   "languages": [ { "cpp": {} } ],
   "targetDevice": [ "CPU", "GPU" ],
@@ -16,7 +16,7 @@
                         "cmake ..",
                         "make",
                         "make run",
-                        "make run_smo"
+                        "make run_sm"
                  ]
         }]
 
