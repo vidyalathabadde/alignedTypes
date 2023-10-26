@@ -131,105 +131,55 @@ The following example is for 02_sycl_migrated for GPU on Intel(R) UHD Graphics P
 
 ```
 [./a.out] - Starting... 
-
 MapSMtoCores for SM 1.3 is undefined.  Default to use 128 Cores/SM 
-
 MapSMtoCores for SM 1.3 is undefined.  Default to use 128 Cores/SM 
-
 [Intel(R) UHD Graphics P630 [0x3e96]] has 24 MP(s) x 128 (Cores/MP) = 3072 (Cores) 
-
 MapSMtoCores for SM 1.3 is undefined.  Default to use 128 Cores/SM 
-
 > Compute scaling value = 1.00 
-
 > Memory Size = 49999872 
-
 Allocating memory... 
-
 Generating host input data array... 
-
 Uploading input data to GPU memory... 
-
 Testing misaligned types... 
-
 uint8... 
-
 Avg. time: 10.518750 ms / Copy throughput: 4.426953 GB/s. 
-
         TEST OK 
-
 uint16... 
-
 Avg. time: 5.757594 ms / Copy throughput: 8.087755 GB/s. 
-
         TEST OK 
-
 RGBA8_misaligned... 
-
 Avg. time: 3.417031 ms / Copy throughput: 13.627622 GB/s. 
-
         TEST OK 
-
 LA32_misaligned... 
-
 Avg. time: 4.948156 ms / Copy throughput: 9.410780 GB/s. 
-
         TEST OK 
-
 RGB32_misaligned... 
-
 Avg. time: 4.902844 ms / Copy throughput: 9.497755 GB/s. 
-
         TEST OK 
-
 RGBA32_misaligned... 
-
 Avg. time: 3.140719 ms / Copy throughput: 14.826546 GB/s. 
-
         TEST OK 
-
 Testing aligned types... 
-
 RGBA8... 
-
 Avg. time: 3.405875 ms / Copy throughput: 13.672260 GB/s. 
-
-        TEST OK 
-
+        TEST OK
 I32... 
-
 Avg. time: 3.434969 ms / Copy throughput: 13.556458 GB/s. 
-
         TEST OK 
-
 LA32... 
-
 Avg. time: 4.919219 ms / Copy throughput: 9.466140 GB/s. 
-
         TEST OK 
-
 RGB32... 
-
 Avg. time: 3.137406 ms / Copy throughput: 14.842199 GB/s. 
-
         TEST OK 
-
 RGBA32... 
-
 Avg. time: 3.121562 ms / Copy throughput: 14.917532 GB/s. 
-
         TEST OK 
-
 RGBA32_2... 
-
 Avg. time: 4.536313 ms / Copy throughput: 10.265168 GB/s. 
-
         TEST OK 
-
 [alignedTypes] -> Test Results: 0 Failures 
-
 Shutting down... 
-
 Test passed 
 ```
 
