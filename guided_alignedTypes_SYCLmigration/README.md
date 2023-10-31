@@ -10,7 +10,7 @@ Data structure alignment is the way data is arranged and accessed in computer me
 
 ## Purpose
 
-The sample shows the migration of alignesTypes from CUDA to SYCL using SYCLomatic tool.
+The sample shows the migration of alignedTypes from CUDA to SYCL using SYCLomatic tool.
 
 >**Note**: We use Intel® open-sources SYCLomatic migration tool which assists developers in porting CUDA code automatically to SYCL code. To finish the process, developers complete the rest of the coding manually and then tune to the desired level of performance for the target architecture. Users can also use Intel® DPC++ Compatibility Tool which comes along with the Intel® oneAPI Base Toolkit.
 
@@ -29,7 +29,7 @@ Refer [Workflow](https://www.intel.com/content/www/us/en/developer/tools/oneapi/
 
  This sample test shows an access speed gap between aligned and misaligned structures (those having/missing __align__ keyword). It measures per-element copy throughput for aligned and misaligned structures on big chunks of data. There are two functions in the code named testKernel, a simple CUDA kernel in which copy is carried out on a per-element basis, so it's not per-byte in case of padded structures and the results are validated on the host-side in testCPU function.
 
-This sample is migrated from the NVIDIA CUDA sample. See the sample [aligneTypes](https://github.com/NVIDIA/cuda-samples/tree/master/Samples/6_Performance/alignedTypes) in the NVIDIA/cuda-samples GitHub.
+This sample is migrated from the NVIDIA CUDA sample. See the sample [alignedTypes](https://github.com/NVIDIA/cuda-samples/tree/master/Samples/6_Performance/alignedTypes) in the NVIDIA/cuda-samples GitHub.
 
 ## Prerequisites
 
