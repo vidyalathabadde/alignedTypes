@@ -1,6 +1,6 @@
 ﻿# `Aligned Types` Sample
 
-Data structure alignment is the way data is arranged and accessed in computer memory. Memory access is said to be aligned when the data being accessed is n bytes long and the datum address is n-byte aligned. When a memory access is not aligned, it is said to be misaligned.  This sample is implemented using SYCL* by migrating code from the original CUDA source code and offloading computations across GPUs from multiple vendors.
+Data structure alignment is the way data is arranged and accessed in computer memory. Memory access is said to be aligned when the data being accessed is n bytes long and the datum address is n-byte aligned. When a memory access is not aligned, it is said to be misaligned.  The original CUDA* source code is migrated to SYCL for portability across GPUs from multiple vendors
 
 | Area              | Description
 |:---                   |:---
