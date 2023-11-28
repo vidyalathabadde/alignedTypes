@@ -80,13 +80,11 @@ RGBA8;
 typedef unsigned int I32;
 
 typedef struct __dpct_align__(8) dpct_type_102693 {
-  unsigned int l, a;
-}
+  unsigned int l, a;}
 LA32;
 
 typedef struct __dpct_align__(16) dpct_type_278528 {
-  unsigned int r, g;
-   unsigned long b;
+  unsigned int r, g, b;
 }
 RGB32;
 
@@ -105,8 +103,7 @@ RGBA32;
 // in general case. See section 5.1.2 of the Programming Guide.
 ////////////////////////////////////////////////////////////////////////////////
 typedef struct __dpct_align__(16) dpct_type_111555 {
-  RGBA32 c1, c2;
-}
+  RGBA32 c1, c2;}
 RGBA32_2;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -188,11 +185,10 @@ sycl::queue q_ct1 = sycl::queue(sycl::default_selector_v);
   const int numElements = iDivDown(memory_size, sizeof(TData));
 
   // Clean output buffer before current test
-  checkCudaErrors(DPCT_CHECK_ERROR(
-      q_ct1.memset(d_odata, 0, memory_size).wait()));
+  DPCT_CHECK_ERROR(
+      q_ct1.memset(d_odata, 0, memory_size).wait());
   // Run test
-  checkCudaErrors(
-      DPCT_CHECK_ERROR(q_ct1.wait_and_throw()));
+      DPCT_CHECK_ERROR(q_ct1.wait_and_throw());
   sdkResetTimer(&hTimer);
   sdkStartTimer(&hTimer);
 
@@ -208,20 +204,17 @@ sycl::queue q_ct1 = sycl::queue(sycl::default_selector_v);
                          testKernel<TData>(d_odata_ct0, d_idata_ct1,
                                            numElements, item_ct1);
                        });
-    });
-    getLastCudaError("testKernel() execution failed\n");
+        });
   }
-
-  checkCudaErrors(
-      DPCT_CHECK_ERROR(q_ct1.wait_and_throw()));
+  DPCT_CHECK_ERROR(q_ct1.wait_and_throw());
   sdkStopTimer(&hTimer);
   double gpuTime = sdkGetTimerValue(&hTimer) / NUM_ITERATIONS;
   printf("Avg. time: %f ms / Copy throughput: %f GB/s.\n", gpuTime,
          (double)totalMemSizeAligned / (gpuTime * 0.001 * 1073741824.0));
 
   // Read back GPU results and run validation
-  checkCudaErrors(DPCT_CHECK_ERROR(q_ct1.memcpy(h_odataGPU, d_odata, memory_size)
-                                       .wait()));
+  DPCT_CHECK_ERROR(q_ct1.memcpy(h_odataGPU, d_odata, memory_size)
+                                       .wait());
   int flag = testCPU((TData *)h_odataGPU, (TData *)h_idataCPU, numElements,
                      packedElementSize);
 
@@ -239,35 +232,19 @@ sycl::queue q_ct1 = sycl::queue(sycl::default_selector_v);
   printf("[%s] - Starting...\n", argv[0]);
 std::cout << "\nRunning on " << q_ct1.get_device().get_info<sycl::info::device::name>()
             << "\n";
-
-  // find first CUDA device
-  //devID = findCudaDevice(argc, (const char **)argv);
-
   // get number of SMs on this GPU
-  checkCudaErrors(DPCT_CHECK_ERROR(dpct::get_device_info(
-      deviceProp, dpct::dev_mgr::instance().get_device(devID))));
+ DPCT_CHECK_ERROR(dpct::get_device_info(
+      deviceProp, dpct::dev_mgr::instance().get_device(devID)));
   printf("[%s] has %d MP(s) x %d (Cores/MP) = %d (Cores)\n",
          deviceProp.get_name(), deviceProp.get_max_compute_units(),
-         /*
-         DPCT1005:14: The SYCL device version is different from CUDA Compute
-         Compatibility. You may need to rewrite this code.
-         */
          _ConvertSMVer2Cores(deviceProp.get_major_version(),
                              deviceProp.get_minor_version()),
-         /*
-         DPCT1005:15: The SYCL device version is different from CUDA Compute
-         Compatibility. You may need to rewrite this code.
-         */
          _ConvertSMVer2Cores(deviceProp.get_major_version(),
                              deviceProp.get_minor_version()) *
              deviceProp.get_max_compute_units());
 
   // Anything that is less than 192 Cores will have a scaled down workload
   float scale_factor =
-      /*
-      DPCT1005:16: The SYCL device version is different from CUDA Compute
-      Compatibility. You may need to rewrite this code.
-      */
       std::max((192.0f / (_ConvertSMVer2Cores(deviceProp.get_major_version(),
                                               deviceProp.get_minor_version()) *
                           (float)deviceProp.get_max_compute_units())),
@@ -284,12 +261,10 @@ std::cout << "\nRunning on " << q_ct1.get_device().get_info<sycl::info::device::
   printf("Allocating memory...\n");
   h_idataCPU = (unsigned char *)malloc(MemorySize);
   h_odataGPU = (unsigned char *)malloc(MemorySize);
-  checkCudaErrors(
       DPCT_CHECK_ERROR(d_idata = (unsigned char *)sycl::malloc_device(
-                           MemorySize, q_ct1)));
-  checkCudaErrors(
+                           MemorySize, q_ct1));
       DPCT_CHECK_ERROR(d_odata = (unsigned char *)sycl::malloc_device(
-                           MemorySize, q_ct1)));
+                           MemorySize, q_ct1));
 
   printf("Generating host input data array...\n");
 
@@ -298,9 +273,8 @@ std::cout << "\nRunning on " << q_ct1.get_device().get_info<sycl::info::device::
   }
 
   printf("Uploading input data to GPU memory...\n");
-  checkCudaErrors(DPCT_CHECK_ERROR(q_ct1
-                                       .memcpy(d_idata, h_idataCPU, MemorySize)
-                                       .wait()));
+  DPCT_CHECK_ERROR(q_ct1.memcpy(d_idata, h_idataCPU, MemorySize)
+                                       .wait());
 
   printf("Testing misaligned types...\n");
   printf("uint8...\n");
@@ -343,10 +317,8 @@ std::cout << "\nRunning on " << q_ct1.get_device().get_info<sycl::info::device::
   printf("\n[alignedTypes] -> Test Results: %d Failures\n", nTotalFailures);
 
   printf("Shutting down...\n");
-  checkCudaErrors(
-      DPCT_CHECK_ERROR(sycl::free(d_idata, q_ct1)));
-  checkCudaErrors(
-      DPCT_CHECK_ERROR(sycl::free(d_odata, q_ct1)));
+      DPCT_CHECK_ERROR(sycl::free(d_idata, q_ct1));
+      DPCT_CHECK_ERROR(sycl::free(d_odata, q_ct1));
   free(h_odataGPU);
   free(h_idataCPU);
 
