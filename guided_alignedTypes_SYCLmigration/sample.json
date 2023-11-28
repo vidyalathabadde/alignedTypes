@@ -16,7 +16,7 @@
                         "cmake ..",
                         "make",
                         "make run",
-                        "make run_sm"
+                        "make run_smo"
                  ]
         }]
 
