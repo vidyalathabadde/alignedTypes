@@ -105,7 +105,7 @@ Since its a custom API SYCLomatic tool will not act on it and we can either remo
       ```
    Run `sycl_migrated` on CPU.
       ```
-      export ONEAPI_DEVICE_SELECTOR=cpu
+      export ONEAPI_DEVICE_SELECTOR=opencl:cpu
       make run
       unset ONEAPI_DEVICE_SELECTOR
       ```
