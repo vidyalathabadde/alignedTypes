@@ -11,13 +11,8 @@ endif ()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-option (BUILD_SYCL_MIGRATED_SUBPROJECT "Build targets from subproject dpct_output" ON)
-option (BUILD_SYCL_MIGRATED_OPTIMIZED_SUBPROJECT "Build targets from subproject convolutionSeparable_migrated_optimized" ON)
+option (BUILD_SYCL_MIGRATED_SUBPROJECT "Build targets from subproject 02_sycl_migrated" ON)
 
 if (BUILD_SYCL_MIGRATED_SUBPROJECT)
-        add_subdirectory (01_dpct_output)
+        add_subdirectory (02_sycl_migrated)
 endif ()
-if (BUILD_SYCL_MIGRATED_OPTIMIZED_SUBPROJECT)
-        add_subdirectory (02_sycl_migrated_optimized)
-endif ()
-
